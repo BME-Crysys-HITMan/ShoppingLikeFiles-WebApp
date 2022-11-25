@@ -1,0 +1,29 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+<nav class="navbar navbar-toggleable-xs">
+    <mat-toolbar color="primary">
+        <div fxShow="true" fxHide.gt-sm="true">
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+        <h1>Shopping Like Flies</h1>
+        <span class="navbar-spacer"></span>
+        <div fxShow="true" fxHide.lt-md="true">
+            <button mat-button routerLink="/caffs">Caffs</button>
+            <!-- <button mat-button routerLink="/users" *ngIf="user?.isAdmin">Felhasználok</button> -->
+            <button mat-raised-button float-right (click)="logout()">Kijelentkezés</button>
+        </div>
+    </mat-toolbar>
+    <mat-sidenav-container fxFlexFill class="example-container">
+        <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
+            <div fxLayout="column">
+                <button mat-button routerLink="/caffs">Caffs</button>
+                <button mat-raised-button (click)="logout()">Kijelentkezés</button>
+            </div>
+        </mat-sidenav>
+        <div class="content-container">
+            <router-outlet></router-outlet>
+
+        </div>
+    </mat-sidenav-container>
+</nav>

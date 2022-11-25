@@ -1,0 +1,13 @@
+.navbar {
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.title {
+    font-size: 20px;
+    padding-right: 1.5rem;
+}
+
+.content-container {
+    height: calc(100vh - 64px);
+}
