@@ -11,3 +11,24 @@
 .content-container {
     height: calc(100vh - 64px);
 }
+
+button.menu {
+    font-size: 11px;
+    padding-left: 20px;
+  }
+
+.timer {
+    font-size: 11px;
+    margin-right: 1rem;
+}
+
+.menu-item {
+    margin-left: 6px;
+}
+
+hr.header {
+    border: none;
+    margin: 0;
+    height: 0.5px;
+    background: primary;
+  }

@@ -16,6 +16,7 @@ import { BASE_URL } from './base-urls';
 import { AuthService } from './core/auth/auth.service';
 import { CaffModule } from './features/caff/caff.module';
 import { AdminModule } from './features/admin/admin.module';
+import { ProfileModule } from './features/profile/profile.module';
 
 @NgModule({
     declarations: [
@@ -29,9 +30,10 @@ import { AdminModule } from './features/admin/admin.module';
         HttpClientModule,
         MaterialModule,
         NgxSpinnerModule,
-        LayoutModule,
-        CaffModule,
+        ProfileModule,
         AdminModule,
+        CaffModule,
+        LayoutModule,
         AppRoutingModule,
     ],
     providers: [

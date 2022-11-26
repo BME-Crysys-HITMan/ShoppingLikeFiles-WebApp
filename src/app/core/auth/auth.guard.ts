@@ -23,6 +23,6 @@ export class AuthGuard implements CanActivate {
 
         // this.router.navigate(['/caffs']);
         // return false;
-        return true
+        return true;
     }
 }
