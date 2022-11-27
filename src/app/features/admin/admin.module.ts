@@ -2,16 +2,28 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
-import { CaffDetailsComponent } from './caff-details/caff-details.component';
+import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { AdminCaffListComponent } from './admin-caff-list/admin-caff-list.component';
+import { MaterialModule } from 'src/app/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
   declarations: [
-    CaffDetailsComponent
+
+    AdminLayoutComponent,
+    UserListComponent,
+    AdminCaffListComponent,
+
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    MaterialModule,
+    FlexLayoutModule,
+    NgxSpinnerModule,
   ]
 })
 export class AdminModule { }

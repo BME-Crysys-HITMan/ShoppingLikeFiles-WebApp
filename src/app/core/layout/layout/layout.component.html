@@ -11,6 +11,7 @@
                 <h1>Shopping Like Flies</h1>
                 <div fxShow="true" fxHide.lt-md="true" class="menu-item">
                     <button mat-button routerLink="/caffs">Caffs</button>
+                    <button mat-button routerLink="/admin" *ngIf="currentUser?.isAdmin">Admin</button>
                 </div>
             </div>
     

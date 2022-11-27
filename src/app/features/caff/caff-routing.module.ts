@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/core/auth/auth.guard';
 import { layoutChildRoutes } from 'src/app/core/router/route-child-wrapper';
-import { CaffDetailsComponent } from '../admin/caff-details/caff-details.component';
+import { CaffDetailsComponent } from './caff-details/caff-details.component';
 import { CaffListComponent } from './caff-list/caff-list.component';
 
 const routes: Routes = [

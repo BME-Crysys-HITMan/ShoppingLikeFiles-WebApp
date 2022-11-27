@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { CaffRoutingModule } from './caff-routing.module';
 import { CaffListComponent } from './caff-list/caff-list.component';
+import { CaffDetailsComponent } from './caff-details/caff-details.component';
 
 
 @NgModule({
   declarations: [
-    CaffListComponent
+    CaffListComponent,
+    CaffDetailsComponent,
   ],
   imports: [
     CommonModule,
