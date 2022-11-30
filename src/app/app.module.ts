@@ -17,6 +17,7 @@ import { AuthService } from './core/auth/auth.service';
 import { CaffModule } from './features/caff/caff.module';
 import { AdminModule } from './features/admin/admin.module';
 import { ProfileModule } from './features/profile/profile.module';
+import { Configuration } from './sdk';
 
 @NgModule({
     declarations: [
@@ -43,17 +44,17 @@ import { ProfileModule } from './features/profile/profile.module';
             useClass: AuthorizationErrorInterceptorService,
             multi: true,
         },
-        // {
-        //     provide: Configuration,
-        //     useFactory: (authService: AuthService) =>
-        //         new Configuration({
-        //             basePath: BASE_URL,
-        //             accessToken:
-        //                 authService.getAccessToken.bind(authService),
-        //         }),
-        //     deps: [authService],
-        //     multi: false,
-        // },
+        {
+            provide: Configuration,
+            useFactory: (authService: AuthService) =>
+                new Configuration({
+                    basePath: BASE_URL,
+                    accessToken:
+                        authService.getAccessToken.bind(authService),
+                }),
+            deps: [AuthService],
+            multi: false,
+        },
     ],
     bootstrap: [AppComponent]
 })

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { GetUserDto } from 'src/app/types';
+import * as moment from 'moment';
+import { interval, takeUntil, timer } from 'rxjs';
+import { UserResponse } from 'src/app/sdk';
 import { AuthService } from '../../auth/auth.service';
 import { LoginDialogComponent } from '../../auth/login-dialog/login-dialog.component';
+import { LoginService } from '../../auth/login.service';
 import { RegisterDialogComponent } from '../../auth/register-dialog/register-dialog.component';
 
 @Component({
@@ -12,13 +15,16 @@ import { RegisterDialogComponent } from '../../auth/register-dialog/register-dia
     styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-    // TODO: add menu to right side of navbar that handles auth
-    currentUser: GetUserDto;
+
+    currentUser: UserResponse;
+    duration;
+    countdown = '';
 
     constructor(
         private authService: AuthService,
         private dialog: MatDialog,
         private router: Router,
+        private loginService: LoginService,
     ) { }
 
     ngOnInit(): void {
@@ -33,7 +39,7 @@ export class LayoutComponent implements OnInit {
             autoFocus: true,
         }).afterClosed().subscribe({
             next: () => {
-
+                this.startTimer();
             },
         });
     }
@@ -48,10 +54,32 @@ export class LayoutComponent implements OnInit {
     }
 
     logout(): void {
-        console.log('logout');
+        this.loginService.logout().subscribe({
+            next: () => this.router.navigate(["/caffs"]),
+        });
     }
 
     navigateToProfile() {
         this.router.navigate(["/profile"]);
+    }
+
+    private startTimer() {
+        this.duration = moment.duration(30,'minute');
+        this.countdown = moment(this.duration.asMilliseconds()).format('mm:ss');
+        const sub = interval(1000);
+
+        // Countdown 30 minutes then complate the observable
+        sub
+        .pipe(takeUntil(timer(4000)))
+        .subscribe({
+            next: () => {
+                this.duration = this.duration.subtract(moment.duration(1, 'second'))
+                this.countdown = moment(this.duration.asMilliseconds()).format('mm:ss');
+            },
+            complete: () => {
+                this.authService.clear();
+                this.router.navigate(['/caffs']);
+            }
+        });
     }
 }

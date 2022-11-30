@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { UserResponse } from 'src/app/sdk';
 import { AdminService } from '../admin.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { AdminService } from '../admin.service';
 })
 export class UserListComponent implements OnInit {
 
-    dataSource = new MatTableDataSource<any>();
+    dataSource = new MatTableDataSource<UserResponse>();
     displayedColumns = [
         'username',
         'firstname',
@@ -25,7 +26,7 @@ export class UserListComponent implements OnInit {
 
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-    adminUser;
+    adminUser: UserResponse;
 
     constructor(
         private adminService: AdminService,
@@ -44,7 +45,7 @@ export class UserListComponent implements OnInit {
     private reload(): void {
         this.spinner.show();
         this.adminService.getUsers().subscribe({
-            next: (users) => {
+            next: (users: UserResponse[]) => {
                 this.users = users,
                     this.dataSource.data = this.users;
             },
@@ -58,8 +59,15 @@ export class UserListComponent implements OnInit {
         });
     }
 
-    deleteUser(user): void {
+    deleteUser(user: UserResponse): void {
         this.adminService.deleteUser(user.id)
+            .subscribe({
+                next: () => this.reload(),
+            });
+    }
+
+    addAdminRole(user: UserResponse): void {
+        this.adminService.addAdminRole(user.id)
             .subscribe({
                 next: () => this.reload(),
             });

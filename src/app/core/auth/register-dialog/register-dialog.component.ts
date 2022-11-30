@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { RegisterRequest } from 'src/app/sdk';
 import { RegisterDto } from 'src/app/types';
 import { LayoutComponent } from '../../layout/layout/layout.component';
 import { LoginService } from '../login.service';
@@ -46,20 +47,21 @@ export class RegisterDialogComponent implements OnInit {
             return;
         }
         this.spinner.show();
-        const registerDto: RegisterDto = {
+        const registerRequest: RegisterRequest = {
             username: this.registerForm.value.username,
             firstname: this.registerForm.value.firstname,
             lastname: this.registerForm.value.lastname,
             password: this.registerForm.value.password,
             passwordConfirm: this.registerForm.value.passwordConfirm,
         };
-        this.loginService.register(registerDto)
+        this.loginService.register(registerRequest)
             .subscribe({
                 next: () => {
                     this.spinner.hide();
                     this.dialogRef.close();
                 },
                 error: (e) => {
+                    // TODO: ... handle shit
                     this.spinner.hide();
                     if (e.status === 400) {
                         this.error = 'A megadott felhasználó név már foglalt';

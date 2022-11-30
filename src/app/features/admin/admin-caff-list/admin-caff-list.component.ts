@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { CaffResponse, UserResponse } from 'src/app/sdk';
 import { AdminService } from '../admin.service';
 
 @Component({
@@ -13,16 +14,18 @@ import { AdminService } from '../admin.service';
 })
 export class AdminCaffListComponent implements OnInit {
 
-    dataSource = new MatTableDataSource<any>();
+    dataSource = new MatTableDataSource<CaffResponse>();
     displayedColumns = [
-        'username',
+        'caption',
+        'tags',
+        'creator',
         'operations',
     ];
     caffs = [];
 
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-    adminUser;
+    adminUser: UserResponse;
 
     constructor(
         private adminService: AdminService,
@@ -41,25 +44,31 @@ export class AdminCaffListComponent implements OnInit {
     private reload(): void {
         this.spinner.show();
         this.adminService.getCaffs().subscribe({
-            next: (caffs) => {
+            next: (caffs: CaffResponse[]) => {
                 this.caffs = caffs,
-                    this.dataSource.data = this.caffs;
+                this.dataSource.data = this.caffs;
             },
             complete: () => {
                 this.spinner.hide();
             },
             error: (err) => {
+                // remove console log
                 console.log(err);
                 this.spinner.hide();
             },
         });
     }
 
-    deleteCaff(caff): void {
+    deleteCaff(caff: CaffResponse): void {
+        this.spinner.show()
         this.adminService.deleteCaff(caff.id)
             .subscribe({
                 next: () => this.reload(),
             });
+    }
+
+    editCaff(caff: CaffResponse): void {
+        // TODO: edit dialog
     }
 
 }

@@ -37,6 +37,9 @@
                     <!-- <button mat-raised-button color="primary" class="operation-button" matTooltip="Szerkesztés" matTooltipPosition="above" [matTooltipShowDelay]="500" (click)="editUser(user)">
                         <mat-icon matListIcon> edit </mat-icon>
                     </button> -->
+                    <button mat-raised-button color="primary" class="operation-button" matTooltip="Add admin role" matTooltipPosition="above" [matTooltipShowDelay]="500" (click)="addAdminRole(user)">
+                        <mat-icon matListIcon> add_moderator </mat-icon>
+                    </button>
                     <button mat-raised-button color="warn" class="operation-button" matTooltip="Törlés" matTooltipPosition="above" [matTooltipShowDelay]="500"
                         (click)="deleteUser(user)" *ngIf="adminUser.id !== user.id">
                         <mat-icon matListIcon class="table-field-button"> delete </mat-icon>

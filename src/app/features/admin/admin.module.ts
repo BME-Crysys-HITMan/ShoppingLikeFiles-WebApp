@@ -8,19 +8,22 @@ import { AdminCaffListComponent } from './admin-caff-list/admin-caff-list.compon
 import { MaterialModule } from 'src/app/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { EditCaffDialogComponent } from './edit-caff-dialog/edit-caff-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-
     AdminLayoutComponent,
     UserListComponent,
     AdminCaffListComponent,
+    EditCaffDialogComponent,
 
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
+    ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
     NgxSpinnerModule,

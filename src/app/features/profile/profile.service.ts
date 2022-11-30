@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { ChangePasswordDto, UpdateUserDto } from 'src/app/types';
+import { map, Observable } from 'rxjs';
+import { ChangePasswordRequest, UpdateUserRequest, UsersService as UserApi } from 'src/app/sdk';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ProfileService {
 
-  constructor() { }
+    constructor(
+        private userApi: UserApi,
+        private authService: AuthService,
+    ) { }
 
-  updateUser(updateUserDto: UpdateUserDto): Observable<any> {
-    return of({});
-  }
+    updateUser(userId: string, updateUserRequest: UpdateUserRequest): Observable<any> {
+        return this.userApi.apiUsersIdPut(userId, updateUserRequest)
+            .pipe(
+                map((result) => {
+                    this.authService.setUser(result);
+                    return result;
+                })
+            );
+    }
 
-  changePassword(changePasswordDto: ChangePasswordDto): Observable<any> {
-    return of({});
-
-  }
-
+    changePassword(userId: string ,changePasswordRequest: ChangePasswordRequest): Observable<any> {
+        return this.userApi.apiUsersIdPwresetPut(userId, changePasswordRequest);
+    }
 
 }

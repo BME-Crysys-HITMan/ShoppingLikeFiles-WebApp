@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LoginRequest } from 'src/app/sdk';
 import { LoginDto } from 'src/app/types';
 import { LayoutComponent } from '../../layout/layout/layout.component';
 import { LoginService } from '../login.service';
@@ -41,14 +42,13 @@ export class LoginDialogComponent implements OnInit {
             return;
         }
         this.spinner.show();
-        const loginDto: LoginDto = {
+        const loginRequest: LoginRequest = {
             username: this.loginForm.value.username,
             password: this.loginForm.value.password,
         };
-        this.loginService.login(loginDto)
+        this.loginService.login(loginRequest)
             .subscribe({
                 next: () => {
-                    console.log('asdas');
                     this.spinner.hide();
                     this.dialogRef.close();
                 },

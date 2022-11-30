@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { ChangePasswordRequest, UpdateUserRequest } from 'src/app/sdk';
 import { ChangePasswordDto, UpdateUserDto } from 'src/app/types';
 import { ProfileService } from '../profile.service';
 
@@ -23,6 +24,7 @@ export class ProfileDetailsComponent implements OnInit {
         newPassword: [''],
     });
 
+    //TODO: type this
     currentUser;
 
     constructor(
@@ -34,7 +36,6 @@ export class ProfileDetailsComponent implements OnInit {
 
     ngOnInit(): void {
         this.currentUser = this.authService.getUser();
-        console.log(this.currentUser);
         this.editUserForm.setValue(
             {
                 username: this.currentUser.username,
@@ -49,14 +50,14 @@ export class ProfileDetailsComponent implements OnInit {
             return;
         }
         this.spinner.show();
-        const updateUserDto: UpdateUserDto = {
+        const updateUserRequest: UpdateUserRequest = {
             username: this.editUserForm.value.username,
             firstname: this.editUserForm.value.firstname,
             lastname: this.editUserForm.value.lastname,
         };
-        this.profileService.updateUser(updateUserDto)
+        this.profileService.updateUser(this.currentUser.id ,updateUserRequest)
             .subscribe({
-                next: () => {
+                next: (result) => {
                     this.spinner.hide();
                 },
                 error: (e) => {
@@ -71,13 +72,13 @@ export class ProfileDetailsComponent implements OnInit {
             return;
         }
         this.spinner.show();
-        const changePasswordDto: ChangePasswordDto = {
-            oldpassword: this.changePasswordForm.value.oldPassword,
-            newpassword: this.changePasswordForm.value.newPassword,
+        const changePasswordRequest: ChangePasswordRequest = {
+            oldPassword: this.changePasswordForm.value.oldPassword,
+            newPassword: this.changePasswordForm.value.newPassword,
         };
-        this.profileService.changePassword(changePasswordDto)
+        this.profileService.changePassword(this.currentUser.id, changePasswordRequest)
             .subscribe({
-                next: () => {
+                next: (result) => {
                     this.spinner.hide();
                 },
                 error: (e) => {
