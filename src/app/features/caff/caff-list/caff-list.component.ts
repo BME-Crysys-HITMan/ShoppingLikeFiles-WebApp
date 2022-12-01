@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CaffResponse } from 'src/app/sdk';
 import { CaffUploadDialogComponent } from '../caff-upload-dialog/caff-upload-dialog.component';
 import { CaffService } from '../caff.service';
+import { FilterCaffDialogComponent } from '../filter-caff-dialog/filter-caff-dialog.component';
 
 @Component({
     selector: 'app-caff-list',
@@ -14,6 +15,8 @@ import { CaffService } from '../caff.service';
 export class CaffListComponent implements OnInit {
 
     caffs: CaffResponse[] = [];
+    // TODO: create typing for this
+    fillterData = null;
 
     constructor(
         private caffService: CaffService,
@@ -45,8 +48,22 @@ export class CaffListComponent implements OnInit {
         });
     }
 
-    filter() {
+    private search(): void {
+        // TODO: call search endpoint set data source...
+    }
 
+    filter() {
+        this.dialog.open(FilterCaffDialogComponent, {
+            width: '500px',
+            panelClass: 'no-padding-dialog-container',
+            autoFocus: true,
+            data: {filter: this.fillterData},
+        }).afterClosed().subscribe({
+            next: (result) => {
+                this.fillterData = result;
+                this.search();
+            },
+        });
     }
 
     addCaff() {
