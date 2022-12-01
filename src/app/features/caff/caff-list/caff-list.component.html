@@ -4,11 +4,11 @@
             <div fxLayout="row">
                 <p class="title">Caffs</p>
                 <button mat-raised-button color="primary" class="download-list" matTooltip="Lista szűrése" matTooltipPosition="above"
-                    [matTooltipShowDelay]="1500" (click)="filter()">
+                    [matTooltipShowDelay]="1500" (click)="filter()" >
                     <mat-icon class="download-list" matListIcon> filter_list </mat-icon>
                 </button>
             </div>
-            <button mat-fab color="primary" (click)="addCaff()" class="add-fab" matTooltip="Új felhasználó felvétele">+</button>
+            <button mat-fab color="primary" (click)="addCaff()" class="add-fab" matTooltip="Új fájl feltöltése" *ngIf="currentUser">+</button>
         </div>
         <div fxFlex fxLayout="row wrap" fxLayoutAlign="center center">
             <ng-container *ngFor="let caff of caffs">

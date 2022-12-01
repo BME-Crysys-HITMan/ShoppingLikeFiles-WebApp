@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CaffResponse } from 'src/app/sdk';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { CaffResponse, UserResponse } from 'src/app/sdk';
 import { CaffUploadDialogComponent } from '../caff-upload-dialog/caff-upload-dialog.component';
 import { CaffService } from '../caff.service';
 import { FilterCaffDialogComponent } from '../filter-caff-dialog/filter-caff-dialog.component';
@@ -17,15 +18,18 @@ export class CaffListComponent implements OnInit {
     caffs: CaffResponse[] = [];
     // TODO: create typing for this
     fillterData = null;
+    currentUser: UserResponse;
 
     constructor(
         private caffService: CaffService,
         private spinner: NgxSpinnerService,
         private router: Router,
         private dialog: MatDialog,
+        private authService: AuthService,
     ) { }
 
     ngOnInit(): void {
+        this.currentUser = this.authService.getUser();
         this.spinner.show();
         this.reload();
     }

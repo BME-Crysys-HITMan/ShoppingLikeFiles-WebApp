@@ -32,14 +32,15 @@ export class AuthService {
     }
 
     getUser(): UserResponse {
-        return {
-            id: '121321',
-            username: 'sfsd',
-            firstname: 'fsdfs',
-            lastname: 'sfdf',
-            isAdmin: true,
-        };
+        // return {
+        //     id: '121321',
+        //     username: 'sfsd',
+        //     firstname: 'fsdfs',
+        //     lastname: 'sfdf',
+        //     isAdmin: true,
+        // };
         //return this.user;
+        return null;
     }
 
     setAccessToken(token: string) {
