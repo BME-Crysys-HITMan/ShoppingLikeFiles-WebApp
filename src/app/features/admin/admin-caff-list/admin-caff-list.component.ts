@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { CaffResponse, UserResponse } from 'src/app/sdk';
 import { AdminService } from '../admin.service';
+import { EditCaffDialogComponent } from '../edit-caff-dialog/edit-caff-dialog.component';
 
 @Component({
     selector: 'app-admin-caff-list',
@@ -31,6 +33,7 @@ export class AdminCaffListComponent implements OnInit {
         private adminService: AdminService,
         private spinner: NgxSpinnerService,
         private authService: AuthService,
+        private dialog: MatDialog,
     ) { }
 
     ngOnInit(): void {
@@ -68,7 +71,16 @@ export class AdminCaffListComponent implements OnInit {
     }
 
     editCaff(caff: CaffResponse): void {
-        // TODO: edit dialog
+        this.dialog.open(EditCaffDialogComponent, {
+            width: '500px',
+            panelClass: 'no-padding-dialog-container',
+            autoFocus: true,
+            data: caff,
+        }).afterClosed().subscribe({
+            next: (result) => {
+                this.reload();
+            },
+        });
     }
 
 }

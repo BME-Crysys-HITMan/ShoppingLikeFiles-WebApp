@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { UsersService as UserApi, CaffService as CaffApi, UserResponse, CaffResponse } from 'src/app/sdk';
+import { UsersService as UserApi, CaffService as CaffApi, UserResponse, CaffResponse, UpdateCaffRequest } from 'src/app/sdk';
 
 @Injectable({
     providedIn: 'root'
@@ -13,11 +13,12 @@ export class AdminService {
     ) { }
 
     getUsers(): Observable<UserResponse[]> {
-        return of([{ id: '234', username: 'username', firstname: 'firstname', lastname: 'lastname', isAdmin: false }]);
-        //return this.userApi.apiUsersGet();
+        // return of([{ id: '234', username: 'username', firstname: 'firstname', lastname: 'lastname', isAdmin: false }]);
+        return this.userApi.apiUsersGet();
     }
 
     getCaffs(): Observable<CaffResponse[]> {
+        // return of([{ id: '234', creator: 'username', caption: 'firstname', tags: ['lastname'] }]);
         return this.caffApi.apiCaffGet();
     }
 
@@ -33,9 +34,7 @@ export class AdminService {
         return this.caffApi.apiCaffIdDelete(caffId);
     }
 
-    editCaff(): Observable<any> {
-        // TODO: Add body and response to swagger shit
-        return of({});
-        // return this.caffApi.apiCaffIdPut()
+    editCaff(id: string, updateCaffRequest: UpdateCaffRequest): Observable<any> {
+        return this.caffApi.apiCaffIdPut(id, updateCaffRequest);
     }
 }
