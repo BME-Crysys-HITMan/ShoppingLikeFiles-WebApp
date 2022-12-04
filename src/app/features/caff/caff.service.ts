@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
-import { CaffResponse, CaffService as CaffApi, UpdateCaffRequest } from 'src/app/sdk';
+import { CaffResponse, CaffService as CaffApi, UpdateCaffRequest , CaffSearchService as SearchApi, CaffSearchDTO, CaffAllResponse} from 'src/app/sdk';
 
 @Injectable({
     providedIn: 'root'
@@ -8,10 +8,11 @@ import { CaffResponse, CaffService as CaffApi, UpdateCaffRequest } from 'src/app
 export class CaffService {
 
     constructor(
-        private caffApi: CaffApi
+        private caffApi: CaffApi,
+        private searchApi: SearchApi,
     ) { }
 
-    getCaffs(): Observable<CaffResponse[]> {
+    getCaffs(): Observable<CaffAllResponse[]> {
         // return of([
         //     {
         //         id: '234234',
@@ -91,14 +92,15 @@ export class CaffService {
         return this.caffApi.apiCaffIdGet(caffId);
     }
 
-    searchCaffs(filterData): Observable<CaffResponse[]> {
-       return of([{
-            id: 234234,
-            caption: 'Test Caption',
-            tags: ['asd', 'asd', 'ads', 'asd'],
-            creator: 'Test creator',
-            previewUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg'
-        },]);
+    searchCaffs(caffSearchDTO: CaffSearchDTO): Observable<CaffAllResponse[]> {
+        return this.searchApi.apiCaffSearchPost(caffSearchDTO);
+    //    return of([{
+    //         id: 234234,
+    //         caption: 'Test Caption',
+    //         tags: ['asd', 'asd', 'ads', 'asd'],
+    //         creator: 'Test creator',
+    //         previewUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg'
+    //     },]);
     }
 
     downloadCaff(id: number) {
@@ -115,6 +117,6 @@ export class CaffService {
     }
 
     upload(formData): Observable<any> {
-       return this.caffApi.apiCaffUploadPost(formData);
+       return of();//this.caffApi.(formData);
     }
 }

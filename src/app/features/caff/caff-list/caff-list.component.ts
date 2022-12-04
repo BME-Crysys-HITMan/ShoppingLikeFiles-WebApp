@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BASE_URL } from 'src/app/base-urls';
 import { AuthService } from 'src/app/core/auth/auth.service';
-import { CaffResponse, UserResponse } from 'src/app/sdk';
+import { CaffAllResponse, CaffResponse, CaffSearchDTO, UserResponse } from 'src/app/sdk';
 import { CaffUploadDialogComponent } from '../caff-upload-dialog/caff-upload-dialog.component';
 import { CaffService } from '../caff.service';
 import { FilterCaffDialogComponent } from '../filter-caff-dialog/filter-caff-dialog.component';
@@ -16,7 +16,7 @@ import { FilterCaffDialogComponent } from '../filter-caff-dialog/filter-caff-dia
 })
 export class CaffListComponent implements OnInit {
 
-    caffs: CaffResponse[] = [];
+    caffs: CaffAllResponse[] = [];
     // TODO: create typing for this
     fillterData = null;
     currentUser: UserResponse;
@@ -38,7 +38,7 @@ export class CaffListComponent implements OnInit {
     private reload(): void {
         this.spinner.show();
         this.caffService.getCaffs().subscribe({
-            next: (caffs: CaffResponse[]) => {
+            next: (caffs: CaffAllResponse[]) => {
                 this.spinner.hide();
                 this.caffs = caffs;
             },
@@ -55,7 +55,18 @@ export class CaffListComponent implements OnInit {
 
     private search(): void {
         this.spinner.show();
-        this.caffService.searchCaffs(this.fillterData).subscribe({
+        const caffSearchDTO: CaffSearchDTO = {
+        };
+        if (this.fillterData.creator) {
+            caffSearchDTO.creator = [this.fillterData.creator];
+        }
+        if (this.fillterData.caption) {
+            caffSearchDTO.caption = [this.fillterData.caption];
+        }
+        if (this.fillterData?.tags?.length > 0) {
+            caffSearchDTO.tags = this.fillterData.tags;
+        }
+        this.caffService.searchCaffs(caffSearchDTO).subscribe({
             next: (caffs: CaffResponse[]) => {
                 this.spinner.hide();
                 this.caffs = caffs;

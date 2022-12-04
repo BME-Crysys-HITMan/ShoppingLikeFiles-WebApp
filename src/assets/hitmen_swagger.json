@@ -251,51 +251,56 @@
         }
       }
     },
-    "/api/Caff/upload": {
+    "/api/CaffSearch": {
       "post": {
         "tags": [
-          "Caff"
+          "CaffSearch"
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "file": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/CaffSearchDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaffSearchDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaffSearchDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Success"
-          },
-          "415": {
-            "description": "Client Error",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CaffAllResponse"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CaffAllResponse"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CaffAllResponse"
+                  }
                 }
               }
             }
@@ -392,31 +397,14 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -836,6 +824,33 @@
           },
           "previewUrl": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CaffSearchDTO": {
+        "type": "object",
+        "properties": {
+          "creator": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "caption": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },
