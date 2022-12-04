@@ -14,7 +14,6 @@ import { LoginService } from '../login.service';
 })
 export class LoginDialogComponent implements OnInit {
 
-    //TODO: cancel button helyett jobb felso sarok x
     loginForm = this.fb.group({
         username: [''],
         password: [''],
@@ -53,10 +52,19 @@ export class LoginDialogComponent implements OnInit {
                     this.dialogRef.close();
                 },
                 error: (e) => {
+                    this.handleError(e);
                     this.spinner.hide();
-                    // TODO: error handling
                 },
             });
+    }
+
+    private handleError(e): void {
+        console.log(e);
+        if (e.status === 401) {
+            this.error = 'Incorrect password or username';
+        } else {
+            this.error = 'Unknown error occured';
+        }
     }
 
 }

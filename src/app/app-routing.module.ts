@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
-const routes: Routes = [
+export const routes: Routes = [
+  { path:'404', component: PageNotFoundComponent},
   { path: '**', redirectTo: '/caffs' },
 ];
 

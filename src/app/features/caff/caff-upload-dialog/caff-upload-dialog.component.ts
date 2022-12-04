@@ -11,7 +11,7 @@ import { CaffService } from '../caff.service';
 })
 export class CaffUploadDialogComponent implements OnInit {
 
-    fileName = 'filename....';
+    fileName = '';
 
     file: File = null;
 
@@ -26,6 +26,7 @@ export class CaffUploadDialogComponent implements OnInit {
 
     onChange(event): void {
         this.file = event.target.files[0];
+        this.fileName = this.file.name;
     }
 
     upload() {
@@ -34,14 +35,13 @@ export class CaffUploadDialogComponent implements OnInit {
             formData.append('file', this.file);
             this.spinner.show();
 
-            this.caffService.upload(formData).subscribe({
+            this.caffService.upload(this.file).subscribe({
                 next: () => {
                     this.spinner.show();
                     this.dialogRef.close(true);
                 },
                 error: (err) => console.log(err),
             })
-
         }
     }
 

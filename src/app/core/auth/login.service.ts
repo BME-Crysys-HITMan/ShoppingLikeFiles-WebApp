@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { AuthService } from './auth.service';
 import { LoginRequest, LoginResponse, LoginService as LoginApi, RegisterRequest, RegisterService as RegisterApi } from 'src/app/sdk';
 
@@ -15,12 +15,40 @@ export class LoginService {
     ) { }
 
     login(loginRequest: LoginRequest): Observable<LoginResponse> {
-        // TODO: set token stb
-        return this.loginApi.apiLoginPost(loginRequest);
+        return this.loginApi.apiLoginPost(loginRequest)
+        .pipe(
+            map((result) => {
+                if (result.accessToken) {
+                    this.authService.setAccessToken(result.accessToken);
+                    this.authService.setUser({
+                        id: result.id,
+                        isAdmin: result.isAdmin,
+                        username: result.username,
+                        firstname: result.firstname,
+                        lastname: result.lastname
+                    });
+                } else {
+                    this.authService.clear();
+                    throw Error('Access denied');
+                }
+                return {
+                    id: result.id,
+                    isAdmin: result.isAdmin,
+                    username: result.username,
+                    firstname: result.firstname,
+                    lastname: result.lastname
+                };
+            }),
+        );;
     }
 
     logout(): Observable<any> {
-        return this.loginApi.apiLoginDelete();
+        return this.loginApi.apiLoginDelete()
+        .pipe(
+            map(() => {
+                this.authService.clear();
+            }),
+        );
     }
 
     register(registerRequest: RegisterRequest): Observable<any> {

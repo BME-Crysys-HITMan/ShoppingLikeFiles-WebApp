@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { BASE_URL } from 'src/app/base-urls';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { CaffResponse, UserResponse } from 'src/app/sdk';
 import { CaffUploadDialogComponent } from '../caff-upload-dialog/caff-upload-dialog.component';
@@ -53,7 +54,21 @@ export class CaffListComponent implements OnInit {
     }
 
     private search(): void {
-        // TODO: call search endpoint set data source...
+        this.spinner.show();
+        this.caffService.searchCaffs(this.fillterData).subscribe({
+            next: (caffs: CaffResponse[]) => {
+                this.spinner.hide();
+                this.caffs = caffs;
+            },
+            complete: () => {
+                this.spinner.hide();
+            },
+            error: (err) => {
+                // remove console log
+                console.log(err);
+                this.spinner.hide();
+            },
+        });
     }
 
     filter() {
@@ -83,6 +98,7 @@ export class CaffListComponent implements OnInit {
     }
 
     goToDetails(caff: CaffResponse): void {
-        this.router.navigate(['/caff', caff.id]);
+        this.router.navigate(['/caff', caff.id.toString()]);
     }
+
 }

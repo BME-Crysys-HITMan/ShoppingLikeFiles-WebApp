@@ -30,11 +30,11 @@ export class AdminService {
         return this.userApi.apiUsersIdAdminPut(userId);
     }
 
-    deleteCaff(caffId: string): Observable<any> {
+    deleteCaff(caffId: number): Observable<any> {
         return this.caffApi.apiCaffIdDelete(caffId);
     }
 
-    editCaff(id: string, updateCaffRequest: UpdateCaffRequest): Observable<any> {
+    editCaff(id: number, updateCaffRequest: UpdateCaffRequest): Observable<any> {
         return this.caffApi.apiCaffIdPut(id, updateCaffRequest);
     }
 }

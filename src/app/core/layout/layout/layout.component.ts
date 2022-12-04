@@ -39,8 +39,14 @@ export class LayoutComponent implements OnInit {
             autoFocus: true,
         }).afterClosed().subscribe({
             next: () => {
-                this.startTimer();
+                // Angular refresh page workaround
+                this.router.navigateByUrl('/404', {skipLocationChange: true}).then(() => {
+                    // TODO: fix timer
+                    this.startTimer();
+                    this.router.navigate(['/caffs',]);
+                });
             },
+            complete: () => this.startTimer()
         });
     }
 
@@ -55,7 +61,14 @@ export class LayoutComponent implements OnInit {
 
     logout(): void {
         this.loginService.logout().subscribe({
-            next: () => this.router.navigate(["/caffs"]),
+            next: () => {
+                // Angular refresh page workaround
+                this.router.navigateByUrl('/404', {skipLocationChange: true}).then(() => {
+                    this.router.navigate(['/caffs',]);
+                  });
+                // this.router.navigate(["/caffs"])
+            },
+            error: (err) => console.log(err),
         });
     }
 
@@ -68,9 +81,9 @@ export class LayoutComponent implements OnInit {
         this.countdown = moment(this.duration.asMilliseconds()).format('mm:ss');
         const sub = interval(1000);
 
-        // Countdown 30 minutes then complate the observable
+        // Countdown 15 minutes then complate the observable
         sub
-        .pipe(takeUntil(timer(4000)))
+        .pipe(takeUntil(timer(600000)))
         .subscribe({
             next: () => {
                 this.duration = this.duration.subtract(moment.duration(1, 'second'))

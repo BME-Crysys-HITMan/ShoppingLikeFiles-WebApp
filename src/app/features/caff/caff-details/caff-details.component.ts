@@ -55,7 +55,7 @@ export class CaffDetailsComponent implements OnInit {
     ngOnInit(): void {
         this.currentUser = this.authService.getUser();
         this.route.paramMap
-            .pipe(switchMap((params: ParamMap) => this.caffService.getCaff(params.get('id'))))
+            .pipe(switchMap((params: ParamMap) => this.caffService.getCaff(parseInt(params.get('id')))))
             .subscribe({
                 next: (caff: CaffResponse) => {
                     this.spinner.hide();
@@ -69,6 +69,13 @@ export class CaffDetailsComponent implements OnInit {
     }
 
     addComment() {
+        // this.caffService
+        this.comments.push({
+            comment: 'tesaasdas dsad as',
+            user: {
+                username: '2423423'
+            } 
+        })
         // TODO: call add comment
     }
 

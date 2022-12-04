@@ -49,8 +49,13 @@ import { Configuration } from './sdk';
             useFactory: (authService: AuthService) =>
                 new Configuration({
                     basePath: BASE_URL,
-                    accessToken:
-                        authService.getAccessToken.bind(authService),
+                    // accessToken: authService.getAccessToken.bind(authService),
+                    credentials: {
+                        'Bearer': authService.getAccessToken.bind(authService), 
+                    },
+                    // withCredentials: true,
+                    // Bearer:
+                    //     authService.getAccessToken.bind(authService),
                 }),
             deps: [AuthService],
             multi: false,

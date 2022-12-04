@@ -6,7 +6,6 @@ import { UserResponse } from 'src/app/sdk';
     providedIn: 'root'
 })
 export class AuthService {
-    // TODO: timer
     private token: string;
     private user: UserResponse;
 
@@ -32,15 +31,7 @@ export class AuthService {
     }
 
     getUser(): UserResponse {
-        // return {
-        //     id: '121321',
-        //     username: 'sfsd',
-        //     firstname: 'fsdfs',
-        //     lastname: 'sfdf',
-        //     isAdmin: true,
-        // };
-        //return this.user;
-        return null;
+        return this.user;
     }
 
     setAccessToken(token: string) {

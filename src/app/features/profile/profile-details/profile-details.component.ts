@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/auth/auth.service';
-import { ChangePasswordRequest, UpdateUserRequest } from 'src/app/sdk';
-import { ChangePasswordDto, UpdateUserDto } from 'src/app/types';
+import { ChangePasswordRequest, UpdateUserRequest, UserResponse } from 'src/app/sdk';
 import { ProfileService } from '../profile.service';
 
 @Component({
@@ -24,8 +23,7 @@ export class ProfileDetailsComponent implements OnInit {
         newPassword: [''],
     });
 
-    //TODO: type this
-    currentUser;
+    currentUser: UserResponse;
 
     constructor(
         private fb: UntypedFormBuilder,
@@ -58,6 +56,7 @@ export class ProfileDetailsComponent implements OnInit {
         this.profileService.updateUser(this.currentUser.id ,updateUserRequest)
             .subscribe({
                 next: (result) => {
+                    // this.authService()
                     this.spinner.hide();
                 },
                 error: (e) => {

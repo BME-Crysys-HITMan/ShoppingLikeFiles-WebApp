@@ -22,7 +22,7 @@
 
     <div fxLayout="row" class="button-row">
         <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
-            <p class="error mr-4">{{error}}</p>
+            <p class="error">{{error}}</p>
             <button type="button" mat-stroked-button color="primary" class="cancel" (click)="cancel()">Cancel</button>
             <button type="submit" mat-flat-button color="primary" (click)="onSubmit()"
                 [disabled]="!loginForm.valid">Login
